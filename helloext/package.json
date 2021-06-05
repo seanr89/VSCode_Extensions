@@ -15,6 +15,31 @@
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "nuget-search-explorer",
+					"title": "Nuget Review",
+					"icon": "media/logo.svg"
+				}
+			]
+		},
+		"views": {
+			"nuget-search-explorer": [
+				{
+					"id": "nodeDependencies",
+					"name": "Node Dependencies",
+					"icon": "media/logo.svg",
+					"contextualTitle": "Package Explorer"
+				}
+			],
+			"explorer": [
+				{
+					"id": "testView",
+					"name": "Test View"
+				}
+			]
+		},
 		"commands": [
 			{
 				"command": "helloext.helloWorld",
