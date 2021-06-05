@@ -240,9 +240,9 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry> {
       return children.map(([name, type]) => ({ uri: vscode.Uri.file(path.join(element.uri.fsPath, name)), type }));
     }
 
-    const workspaceFolder = vscode.workspace.workspaceFolders?.filter((folder) => folder.uri.scheme === 'file')[0];
+    const workspaceFolder = vscode.workspace.workspaceFolders?.filter((folder) => folder.uri.scheme === 'file');
     if (workspaceFolder) {
-      const children = await this.readDirectory(workspaceFolder.uri);
+      const children = await this.readDirectory(workspaceFolder[0].uri);
       children.sort((a, b) => {
         if (a[1] === b[1]) {
           return a[0].localeCompare(b[0]);
@@ -250,7 +250,7 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry> {
         return a[1] === vscode.FileType.Directory ? -1 : 1;
       });
       return children.map(([name, type]) => ({
-        uri: vscode.Uri.file(path.join(workspaceFolder.uri.fsPath, name)),
+        uri: vscode.Uri.file(path.join(workspaceFolder[0].uri.fsPath, name)),
         type,
       }));
     }
@@ -275,12 +275,17 @@ export class FileSystemProvider implements vscode.TreeDataProvider<Entry> {
 
 export class FileExplorer {
   constructor(context: vscode.ExtensionContext) {
-    //const treeDataProvider = new FileSystemProvider();
+    const treeDataProvider = new FileSystemProvider();
     // Get the current directory.
-    const currentWorkspaceFolders: string[] | undefined = workspace.workspaceFolders?.map((folder) => folder.uri.path);
+    //const currentWorkspaceFolders: string[] | undefined = workspace.workspaceFolders?.map((folder) => folder.uri.path);
 
-    context.subscriptions.push(vscode.window.createTreeView('fileExplorer', {}));
+    context.subscriptions.push(vscode.window.createTreeView('fileExplorer', { treeDataProvider }));
     //vscode.commands.registerCommand('fileExplorer.openFile', (resource) => this.openResource(resource));
+  }
+
+  public async GoGetFiles() {
+    const files = await vscode.workspace.findFiles('**/*.csproj', '**/node_modules/**');
+    console.log('files found');
   }
 
   private openResource(resource: vscode.Uri): void {
