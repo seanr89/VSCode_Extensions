@@ -1,29 +1,32 @@
 import * as vscode from 'vscode';
-import { TreeItem } from 'vscode';
+import { EventEmitter, TreeItem } from 'vscode';
 import { ProjectInfo } from './projectInfo';
 
 export class FileExplorer implements vscode.TreeDataProvider<ProjectInfo> {
+  private _onDidChangeTreeData: EventEmitter<ProjectInfo | undefined | null | void> = new EventEmitter<
+    ProjectInfo | undefined | null | void
+  >();
+  readonly onDidChangeTreeData: vscode.Event<ProjectInfo | undefined | null | void> = this._onDidChangeTreeData.event;
+
   constructor(context: vscode.ExtensionContext) {
-    // context.subscriptions.push(vscode.window.createTreeView('fileExplorer', { treeDataProvider }));
-    //context.subscriptions.push(vscode.window.createTreeView('fileExplorer', { treeDataProvider }));
-    //vscode.commands.registerCommand('fileExplorer.openFile', (resource) => this.openResource(resource));
+    vscode.commands.registerCommand('fileExplorer.openFile', (resource) => this.openResource(resource));
   }
 
   static async GoGetFiles() {
     let data: ProjectInfo[];
     const files = await vscode.workspace.findFiles('**/*.csproj', '**/node_modules/**');
-    console.log('files found');
-    //item.fsPath.substring(0, item.fsPath.lastIndexOf('/')))
     data = files.map((item) => new ProjectInfo(item.path, item.fsPath.substring(item.fsPath.lastIndexOf('\\') + 1)));
-    // files.forEach((element) => {
-    //   console.log(element.fsPath);
-    //   console.log(element.fsPath.substring(element.fsPath.lastIndexOf('\\') + 1));
-    // });
     return data;
   }
 
   getTreeItem(element: ProjectInfo): TreeItem {
-    return element;
+    //return element;
+    const treeItem = new vscode.TreeItem(element.name, element.collapsibleState);
+    //if (element.type === vscode.FileType.File) {
+    treeItem.command = { command: 'fileExplorer.openFile', title: 'Open File', arguments: [element] };
+    treeItem.contextValue = 'file';
+    //}
+    return treeItem;
   }
 
   getChildren(element?: ProjectInfo): Thenable<ProjectInfo[]> {
@@ -37,7 +40,14 @@ export class FileExplorer implements vscode.TreeDataProvider<ProjectInfo> {
     }
   }
 
-  // private openResource(resource: vscode.Uri): void {
-  //   vscode.window.showTextDocument(resource);
-  // }
+  refreshRecords(): void {
+    this.getChildren();
+  }
+
+  private openResource(resource: ProjectInfo): void {
+    console.log('openResource');
+    vscode.workspace.openTextDocument(resource.pathName).then((doc) => {
+      vscode.window.showTextDocument(doc);
+    });
+  }
 }

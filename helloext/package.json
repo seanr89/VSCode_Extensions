@@ -11,7 +11,6 @@
 	],
 	"activationEvents": [
 		"onCommand:helloext.helloWorld",
-		"onCommand:helloext.helloTime",
 		"onView:fileExplorer"
 	],
 	"main": "./dist/extension.js",
@@ -45,6 +44,10 @@
 			{
 				"command": "helloext.helloTime",
 				"title": "Get Time"
+			},
+			{
+				"command": "fileExplorer.openFile",
+				"title": "Open File"
 			}
 		]
 	},

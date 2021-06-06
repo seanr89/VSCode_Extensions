@@ -25,16 +25,19 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.showInformationMessage('Hello VS Code');
   });
 
-  let disposableShowTime = vscode.commands.registerCommand('helloext.helloTime', () => {
-    // The code you place here will be executed every time your command is executed
-    let dateTime = new Date();
-    // Display a message box to the user
-    vscode.window.showInformationMessage('Current time: ' + dateTime);
-  });
+  // let disposableShowTime = vscode.commands.registerCommand('helloext.helloTime', () => {
+  //   // The code you place here will be executed every time your command is executed
+  //   let dateTime = new Date();
+  //   // Display a message box to the user
+  //   vscode.window.showInformationMessage('Current time: ' + dateTime);
+  // });
 
   context.subscriptions.push(disposable);
-  context.subscriptions.push(disposableShowTime);
+  //context.subscriptions.push(disposableShowTime);
 }
 
 // this method is called when your extension is deactivated
 export function deactivate() {}
+
+//
+function setupRefreshButton(): void {}
