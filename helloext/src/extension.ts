@@ -10,7 +10,6 @@ export function activate(context: vscode.ExtensionContext) {
   // Use the console to output diagnostic information (console.log) and errors (console.error)
   // This line of code will only be executed once when your extension is activated
   //console.log('Congratulations, your extension "helloext" is now active!');
-  //new FileExplorer(context);
   context.subscriptions.push(
     vscode.window.createTreeView('fileExplorer', { treeDataProvider: new FileExplorer(context) })
   );
@@ -25,15 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.showInformationMessage('Hello VS Code');
   });
 
-  // let disposableShowTime = vscode.commands.registerCommand('helloext.helloTime', () => {
-  //   // The code you place here will be executed every time your command is executed
-  //   let dateTime = new Date();
-  //   // Display a message box to the user
-  //   vscode.window.showInformationMessage('Current time: ' + dateTime);
-  // });
-
   context.subscriptions.push(disposable);
-  //context.subscriptions.push(disposableShowTime);
 }
 
 // this method is called when your extension is deactivated
