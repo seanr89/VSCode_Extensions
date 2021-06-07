@@ -10,14 +10,41 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:vstodo.helloWorld"
+        "onCommand:vstodo.helloWorld",
+		"onCommand:vstodo.start"
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "todo-explorer",
+					"title": "VSTodo Explorer",
+					"icon": "media/to-do-list.svg"
+				}
+			]
+		},
+		"views": {
+			"todo-explorer": [
+				{
+					"id": "fileExplorer",
+					"name": "Base Explorer",
+					"icon": "media/to-do-list.svg",
+					"contextualTitle": "VS Explorer"
+				}
+			],
+			"explorer": [
+			]
+		},
 		"commands": [
 			{
 				"command": "vstodo.helloWorld",
 				"title": "Hello World"
+			},
+			{
+				"command": "vstodo.start",
+				"title": "Start coding session",
+				"category": "Hello Coding"
 			}
 		]
 	},
