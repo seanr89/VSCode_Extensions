@@ -101,6 +101,7 @@ export class HelloWorldPanel {
       <body>
       <h1>Hi!</h1>
       <h2 id="lines-of-code-counter">0</h2>
+      <button>Test Button</button>
 			</body>
       <script src="${scriptUri}" nonce="${nonce}">
 			</html>`;

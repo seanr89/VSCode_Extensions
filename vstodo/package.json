@@ -10,7 +10,6 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:vstodo.helloWorld",
 		"onCommand:vstodo.start"
 	],
 	"main": "./dist/extension.js",
@@ -38,15 +37,20 @@
 		},
 		"commands": [
 			{
-				"command": "vstodo.helloWorld",
-				"title": "Hello World"
-			},
-			{
 				"command": "vstodo.start",
 				"title": "Start coding session",
 				"category": "Hello Coding"
 			}
-		]
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"when": "resourceExtname == .csproj || resourceExtname == .vbproj || resourceExtname == .fsproj || resourceExtname == .sln",
+					"command": "vstodo.start",
+					"group": "navigation"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run package",
